@@ -1,12 +1,12 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import TabContainer from './navigation/TabContainer';
+import {AuthProvider} from './context/AuthContext';
+import StackContainer from './navigation/StackContainer';
 
 function App(): React.JSX.Element {
   return (
-    <NavigationContainer>
-      <TabContainer />
-    </NavigationContainer>
+    <AuthProvider>
+      <StackContainer />
+    </AuthProvider>
   );
 }
 
