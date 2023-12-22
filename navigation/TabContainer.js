@@ -29,10 +29,11 @@ const TabContainer = () => {
           return <FontAwesomeIcon name={iconName} size={size} color={color} />;
         },
         tabBarShowLabel: false,
+        headerShown: false,
       })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Shop" component={ShoppingScreen} />
-      <Tab.Screen name="Test" component={AccountScreen} />
+      <Tab.Screen name="Profile" component={AccountScreen} />
     </Tab.Navigator>
   );
 };
