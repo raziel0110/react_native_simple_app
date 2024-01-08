@@ -6,6 +6,7 @@ import {
   InputStyle,
   LabelStyle,
 } from './LoginStyles';
+import {useAuth} from '../../context/AuthContext';
 
 interface LoginScreenProps {
   navigation: any;
@@ -14,9 +15,17 @@ interface LoginScreenProps {
 const LoginScreen = (props: LoginScreenProps) => {
   const [username, setUsername] = useState('');
   const [pwd, setPwd] = useState('');
+  const {authState, onLogin}: any = useAuth();
 
+  console.log(authState);
   const handleLogin = () => {
-    props.navigation.navigate('Main');
+    if (username && pwd) {
+      onLogin(username, pwd);
+      if (!authState.authenticated) {
+        return;
+      }
+      props.navigation.navigate('Main');
+    }
   };
 
   return (

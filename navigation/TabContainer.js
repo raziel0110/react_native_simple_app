@@ -6,10 +6,12 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
+import {useAuth} from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 const TabContainer = () => {
+  const {authState} = useAuth();
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -31,9 +33,14 @@ const TabContainer = () => {
         tabBarShowLabel: false,
         headerShown: false,
       })}>
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Shop" component={ShoppingScreen} />
-      <Tab.Screen name="Profile" component={AccountScreen} />
+      {authState.authenticated ? (
+        <>
+          <Tab.Screen name="Shop" component={ShoppingScreen} />
+          <Tab.Screen name="Profile" component={AccountScreen} />
+        </>
+      ) : (
+        <Tab.Screen name="Home" component={HomeScreen} />
+      )}
     </Tab.Navigator>
   );
 };
