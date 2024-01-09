@@ -33,14 +33,9 @@ const TabContainer = () => {
         tabBarShowLabel: false,
         headerShown: false,
       })}>
-      {authState.authenticated ? (
-        <>
-          <Tab.Screen name="Shop" component={ShoppingScreen} />
-          <Tab.Screen name="Profile" component={AccountScreen} />
-        </>
-      ) : (
-        <Tab.Screen name="Home" component={HomeScreen} />
-      )}
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Shop" component={ShoppingScreen} />
+      <Tab.Screen name="Profile" component={AccountScreen} />
     </Tab.Navigator>
   );
 };

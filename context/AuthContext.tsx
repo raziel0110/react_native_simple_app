@@ -41,12 +41,9 @@ const AuthProvider = ({children}: any) => {
 
   const login = async (username: string, password: string) => {
     try {
-      const response = await axios.post(AUTH_URL, {
-        username,
-        password,
-      });
+      const response = await axios.post(AUTH_URL, {username, password});
       setUser(response.data.username);
-      console.log(response.data);
+
       setAuthState({
         token: response.data.token,
         authenticated: true,
