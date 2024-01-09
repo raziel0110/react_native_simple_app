@@ -6,12 +6,10 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
 import AccountScreen from '../screens/AccountScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
-import {useAuth} from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 const TabContainer = () => {
-  const {authState} = useAuth();
   return (
     <Tab.Navigator
       initialRouteName="Home"
