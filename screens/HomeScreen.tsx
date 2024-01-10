@@ -1,6 +1,4 @@
-import axios from 'axios';
 import React from 'react';
-import {useQuery} from 'react-query';
 import {
   View,
   Text,
@@ -8,31 +6,52 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import {ViewContainer, ImageContainer} from './HomeScreenStyle';
+import {
+  ViewContainer,
+  ImageContainer,
+  DescriptionView,
+  BottomDescription,
+  PriceBlock,
+} from './HomeScreenStyle';
+import {useGetProducts} from '../components/hooks/products/useGetProducts';
 
-const ITEMS_URL = 'https://dummyjson.com/products';
-
-const HomeScreen = (): React.JSX.Element => {
-  const {isLoading, data} = useQuery('products', async () => {
-    return await axios.get(ITEMS_URL);
-  });
+const HomeScreen = (props: {
+  navigation: {navigate: (arg0: string, arg1: {itemId: any}) => void};
+}): React.JSX.Element => {
+  const {isLoading, isFetching, data} = useGetProducts();
   const keyExtractor = (_: any, index: number) => index.toString();
 
   const showItem = (item: any) => {
-    console.log(`Test ${item.id}`);
+    props.navigation.navigate('Item', {
+      itemId: item.id,
+    });
   };
 
   const renderItem = ({item}: any) => (
     <TouchableOpacity onPress={() => showItem(item)}>
       <ViewContainer>
-        <ImageContainer source={{uri: item.images[0]}} />
-        <Text>{item.id}</Text>
-        <Text>{item.brand}</Text>
+        <View>
+          <ImageContainer source={{uri: item.thumbnail}} resizeMode="cover" />
+        </View>
+        <View>
+          <Text>{item.title}</Text>
+          <DescriptionView>
+            <View>
+              <BottomDescription>Stock: {item.stock}</BottomDescription>
+            </View>
+            <View>
+              <Text>
+                Price:
+                <PriceBlock>{item.price}$</PriceBlock>
+              </Text>
+            </View>
+          </DescriptionView>
+        </View>
       </ViewContainer>
     </TouchableOpacity>
   );
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return (
       <>
         <Text>Loading..</Text>
