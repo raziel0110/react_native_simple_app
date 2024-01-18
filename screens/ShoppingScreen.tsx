@@ -1,8 +1,30 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const ShoppingScreen = () => {
+import {useAuth} from '../context/AuthContext';
+
+const ShoppingScreen = (props: {
+  navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
+  route: {name: any};
+}) => {
+  const {authenticated} = useAuth();
+
+  if (!authenticated) {
+    return (
+      <SafeAreaView>
+        <View>
+          <Button
+            onPress={() =>
+              props.navigation.navigate('Login', {screen: props.route.name})
+            }
+            title="Login"
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView>
       <View>
