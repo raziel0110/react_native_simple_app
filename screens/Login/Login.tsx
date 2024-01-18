@@ -17,14 +17,15 @@ const LoginScreen = (props: LoginScreenProps) => {
   const [pwd, setPwd] = useState('');
   const {authState, onLogin}: any = useAuth();
 
-  console.log(authState);
   const handleLogin = () => {
     if (username && pwd) {
       onLogin(username, pwd);
       if (!authState.authenticated) {
         return;
       }
-      props.navigation.navigate('Main');
+      const screenToNavigate =
+        props.navigation.route?.params.screen || 'Products';
+      props.navigation.navigate(screenToNavigate);
     }
   };
 

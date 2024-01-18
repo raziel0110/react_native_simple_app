@@ -24,7 +24,6 @@ const AuthProvider = ({children}: any) => {
   useEffect(() => {
     const loadToken = async () => {
       const token = await AsyncStorage.getItem('token');
-      console.log('useeffect', token);
 
       if (token) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -43,7 +42,7 @@ const AuthProvider = ({children}: any) => {
     try {
       const response = await axios.post(AUTH_URL, {username, password});
       setUser(response.data.username);
-
+      console.log(response.data);
       setAuthState({
         token: response.data.token,
         authenticated: true,

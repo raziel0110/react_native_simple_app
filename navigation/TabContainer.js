@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -7,10 +8,12 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import AccountScreen from '../screens/AccountScreen';
 import ShoppingScreen from '../screens/ShoppingScreen';
 import StackContainer from './StackContainer';
+import {useAuth} from '../context/AuthContext';
 
 const Tab = createBottomTabNavigator();
 
 const TabContainer = () => {
+  const {authState, onLogout} = useAuth();
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -36,7 +39,17 @@ const TabContainer = () => {
           headerShown: false,
         })}>
         <Tab.Screen name="Home" component={StackContainer} />
-        <Tab.Screen name="Shop" component={ShoppingScreen} />
+        <Tab.Screen
+          name="Shop"
+          component={ShoppingScreen}
+          options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
+            headerRight: () =>
+              authState.authenticated ? (
+                <Button title="Logout" onPress={onLogout} />
+              ) : null,
+          }}
+        />
         <Tab.Screen name="Profile" component={AccountScreen} />
       </Tab.Navigator>
     </NavigationContainer>

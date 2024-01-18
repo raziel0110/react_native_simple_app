@@ -8,9 +8,9 @@ const ShoppingScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
   route: {name: any};
 }) => {
-  const {authenticated} = useAuth();
+  const {authState, onLogout}: any = useAuth();
 
-  if (!authenticated) {
+  if (!authState.authenticated) {
     return (
       <SafeAreaView>
         <View>
@@ -29,6 +29,7 @@ const ShoppingScreen = (props: {
     <SafeAreaView>
       <View>
         <Text>Shopping Card</Text>
+        <Button title="Logout" onPress={() => onLogout()} />
       </View>
     </SafeAreaView>
   );
