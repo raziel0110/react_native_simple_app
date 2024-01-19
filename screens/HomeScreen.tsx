@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import {
   ViewContainer,
@@ -13,6 +14,7 @@ import {
   BottomDescription,
   PriceBlock,
 } from './HomeScreenStyle';
+import SearchFilter from '../components/products/SearchFilter';
 import {useGetProducts} from '../components/hooks/products/useGetProducts';
 
 const HomeScreen = (props: {
@@ -62,6 +64,9 @@ const HomeScreen = (props: {
   return (
     <SafeAreaView>
       <View>
+        <View style={styles.filterContainer}>
+          <SearchFilter />
+        </View>
         <FlatList
           data={data?.data?.products}
           keyExtractor={keyExtractor}
@@ -71,5 +76,17 @@ const HomeScreen = (props: {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  filterContainer: {
+    marginTop: 5,
+    marginBottom: 7,
+    marginLeft: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    width: '95%',
+    borderRadius: 10,
+  }
+})
 
 export default HomeScreen;
