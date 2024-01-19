@@ -49,7 +49,7 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
           <Button
             title={'Add to Cart'}
             color="#007AFF"
-            onPress={() => alert('test')}
+            onPress={() => alert('Add to cart')}
           />
         </View>
       </ScrollView>

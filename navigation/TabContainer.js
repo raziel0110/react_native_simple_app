@@ -34,18 +34,18 @@ const TabContainer = () => {
             );
           },
           tabBarShowLabel: false,
-          headerShown: false,
+          headerShown: true,
         })}>
         <Tab.Screen name="Home" component={StackContainer} />
         <Tab.Screen
           name="Shop"
           component={ShoppingScreen}
-          options={{
+          options={() => ({
             // eslint-disable-next-line react/no-unstable-nested-components
             headerRight: () => {
               return <LogoutButton />;
             },
-          }}
+          })}
         />
         <Tab.Screen name="Profile" component={AccountScreen} />
       </Tab.Navigator>
