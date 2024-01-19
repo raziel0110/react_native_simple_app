@@ -10,12 +10,14 @@ const ShoppingScreen = (props: {
   route: {name: any};
 }): React.JSX.Element => {
   const {authState}: any = useAuth();
-  const action = ():void => {
+  const action = (): void => {
     props.navigation.navigate('Login', {screen: props.route.name});
   };
 
   if (!authState.authenticated) {
-    return <RedirectLoginContainer action={action} isIos={Platform.OS === 'ios'} />
+    return (
+      <RedirectLoginContainer action={action} isIos={Platform.OS === 'ios'} />
+    );
   }
 
   return (
