@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import {
   ViewContainer,
@@ -20,7 +21,8 @@ import {useGetProducts} from '../components/hooks/products/useGetProducts';
 const HomeScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {itemId: any}) => void};
 }): React.JSX.Element => {
-  const {isLoading, isFetching, data} = useGetProducts();
+  const [searchKey, setSearchKey] = useState('');
+  const {isLoading, isFetching, data} = useGetProducts(searchKey);
   const keyExtractor = (_: any, index: number) => index.toString();
 
   const showItem = (item: any) => {
@@ -56,7 +58,9 @@ const HomeScreen = (props: {
   if (isLoading || isFetching) {
     return (
       <>
-        <Text>Loading..</Text>
+        <View style={styles.spinner}>
+          <ActivityIndicator />
+        </View>
       </>
     );
   }
@@ -65,7 +69,7 @@ const HomeScreen = (props: {
     <SafeAreaView>
       <View>
         <View style={styles.filterContainer}>
-          <SearchFilter />
+          <SearchFilter onChangeSearchKey={setSearchKey} />
         </View>
         <FlatList
           data={data?.data?.products}
@@ -86,7 +90,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '95%',
     borderRadius: 10,
-  }
-})
+  },
+  spinner: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+});
 
 export default HomeScreen;
