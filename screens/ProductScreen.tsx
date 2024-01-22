@@ -8,14 +8,19 @@ import {
   FlatList,
   Dimensions,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import {SafeAreaView} from 'react-native-safe-area-context';
 import useGetProduct from '../components/hooks/products/useGetProduct';
+import IosButton from '../components/common/IosButton';
+import RatingStar from '../components/common/containers/RatingStarContainer';
 
 const ProductScreen = ({route}: any): React.JSX.Element => {
   const id = route.params.itemId;
-  const data = useGetProduct(`https://dummyjson.com/products/${id}`);
+  const data: any = useGetProduct(`https://dummyjson.com/products/${id}`);
+
+  const addToCart = () => {console.log('click the button')}
 
   const renderItem = ({item}: any) => {
     return (
@@ -24,6 +29,10 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
       </View>
     );
   };
+
+  if (!data) {
+    return <ActivityIndicator />
+  }
 
   return (
     <SafeAreaView>
@@ -38,19 +47,31 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
             renderItem={renderItem}
           />
         </View>
-        <View style={styles.infoContainer}>
+        <View>
           <Text style={styles.title}>{data.title}</Text>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
+        </View>
+        <View style={{display:'flex', flexDirection:'row', justifyContent: 'space-around', marginTop: 10}}>
+          <View>
+            <Text style={styles.text}>Rating:({data.rating})</Text>
+            <RatingStar rating={data.rating} />
+          </View>
+          <View>
+            <Text style={styles.text}>
+              Stock: {data.stock}
+            </Text>
+          </View>
+          <View>
+            <Text style={styles.text}>Price: {data.price}$</Text>
+          </View>
+        </View>
+        <View style={styles.infoContainer}>
+          <View style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', marginTop: 7}}>
             <Text style={{fontWeight: 'bold'}}>Description: </Text>
             <Text>{data.description}</Text>
           </View>
         </View>
-        <View>
-          <Button
-            title={'Add to Cart'}
-            color="#007AFF"
-            onPress={() => alert('Add to cart')}
-          />
+        <View style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <IosButton action={addToCart} text="Add to Cart" color={{backgroundColor:'#294B29'}} icon="shopping-cart" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -58,6 +79,10 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
 };
 
 const styles = StyleSheet.create({
+  text: {
+    color: "#294B29", 
+    fontWeight: 'bold'
+  },
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -72,8 +97,12 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     padding: 16,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   title: {
+    marginTop: 5,
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
