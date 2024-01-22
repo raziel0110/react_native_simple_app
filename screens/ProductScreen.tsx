@@ -15,12 +15,17 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import useGetProduct from '../components/hooks/products/useGetProduct';
 import IosButton from '../components/common/IosButton';
 import RatingStar from '../components/common/containers/RatingStarContainer';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCard } from '../context/features/checkoutSlice';
 
 const ProductScreen = ({route}: any): React.JSX.Element => {
+  const dispatch = useDispatch();
   const id = route.params.itemId;
   const data: any = useGetProduct(`https://dummyjson.com/products/${id}`);
 
-  const addToCart = () => {console.log('click the button')}
+  const addToCart = () => {
+    dispatch(addToCard(data))
+  }
 
   const renderItem = ({item}: any) => {
     return (

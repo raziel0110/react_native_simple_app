@@ -4,10 +4,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-import AccountScreen from '../screens/AccountScreen';
-import ShoppingScreen from '../screens/ShoppingScreen';
+import AccountScreen from '../../screens/AccountScreen';
+import ShoppingScreen from '../../screens/ShoppingScreen';
 import StackContainer from './StackContainer';
-import LogoutButton from '../components/common/LogoutButton';
+import LogoutButton from '../common/LogoutButton';
 
 const Tab = createBottomTabNavigator();
 
