@@ -6,7 +6,7 @@ const PROFILE_URL = 'https://dummyjson.com/auth/me'
 const fetchUser = async (token: string) => {
   return await axios.get(PROFILE_URL, {
     headers: {
-      Authorization: `Bearer ${token}`
+      'Authorization': `Bearer ${token}`
     }
   })
 }

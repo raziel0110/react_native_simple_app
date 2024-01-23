@@ -59,7 +59,11 @@ const TabContainer = () => {
             },
           })}
         />
-        <Tab.Screen name="Profile" component={AccountScreen} />
+        <Tab.Screen name="Profile" component={AccountScreen} options={() => ({
+          headerRight: () => {
+            return <LogoutButton />
+          }
+        })}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

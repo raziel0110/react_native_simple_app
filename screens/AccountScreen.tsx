@@ -12,6 +12,9 @@ import {
 import {useAuth} from '../context/AuthContext';
 import RedirectLoginContainer from '../components/common/containers/RedirectLoginContainer';
 import {useGetUser} from '../components/hooks/products/useGetUser';
+import { Dimensions } from 'react-native';
+
+const height = Dimensions.get('screen').height
 
 const TestScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
@@ -23,7 +26,7 @@ const TestScreen = (props: {
   };
   const message = 'To access your profile please login to your account';
 
-  if (!authState.authenticated) {
+  if (!(authState.authenticated || authState.token)) {
     return (
       <RedirectLoginContainer
         action={action}
@@ -113,8 +116,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   bottomContainer: {
-    height: 600,
-    marginTop: 50,
+    height: height * 0.5,
+    marginTop: 10,
     backgroundColor: '#294B10',
     opacity: 0.7,
     borderTopLeftRadius: 70,
@@ -135,8 +138,8 @@ const styles = StyleSheet.create({
   },
   inputName: {
     width: 300,
-    height: 40,
-    padding: 10,
+    height: 35,
+    padding: 5,
     fontSize: 20,
     color: 'white',
     borderRadius: 50,
