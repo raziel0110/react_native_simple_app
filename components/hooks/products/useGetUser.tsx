@@ -4,11 +4,15 @@ import {useQuery} from "react-query";
 const PROFILE_URL = 'https://dummyjson.com/auth/me'
 
 const fetchUser = async (token: string) => {
-  return await axios.get(PROFILE_URL, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+  if (token) {
+    return await axios.get(PROFILE_URL, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+  }
+  
+  return null;
 }
 
 export const useGetUser = (token: string) => {

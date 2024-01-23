@@ -1,13 +1,19 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
+
+const width = Dimensions.get('screen').width;
 
 export const ViewContainer = styled.View`
   padding: 15px;
   display: flex;
+  width: ${width * 0.9}px; 
   flex-direction: row;
-  border-radius: 5px;
+  margin: 0 auto;
+  border-radius: 20px;
   margin-bottom: 10px;
-  border: 1px solid grey;
   background-color: white;
+  shadow-opacity: 0.6;
+  shadow-color: #294B29;
 `;
 
 export const DescriptionView = styled.View`
@@ -28,6 +34,13 @@ export const PriceBlock = styled.Text`
 export const ImageContainer = styled.Image`
   width: 75px;
   height: 75px;
-  border-radius: 50px;
+  border-radius: 15px;
   margin-right: 24px;
+  shadow-color: #294B29;
+  shadow-opacity: 0.3;
+`;
+
+export const TitleHeader = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
 `;

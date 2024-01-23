@@ -14,6 +14,7 @@ import {
   DescriptionView,
   BottomDescription,
   PriceBlock,
+  TitleHeader,
 } from './HomeScreenStyle';
 import SearchFilter from '../components/products/SearchFilter';
 import {useGetProducts} from '../components/hooks/products/useGetProducts';
@@ -38,15 +39,14 @@ const HomeScreen = (props: {
           <ImageContainer source={{uri: item.thumbnail}} resizeMode="cover" />
         </View>
         <View>
-          <Text>{item.title}</Text>
+          <TitleHeader>{item.title.substring(0,30)}</TitleHeader>
           <DescriptionView>
             <View>
               <BottomDescription>Stock: {item.stock}</BottomDescription>
             </View>
             <View>
               <Text>
-                Price:
-                <PriceBlock>{item.price}$</PriceBlock>
+                Price:<PriceBlock>{item.price}$</PriceBlock>
               </Text>
             </View>
           </DescriptionView>
