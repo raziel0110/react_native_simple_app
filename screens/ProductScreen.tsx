@@ -15,7 +15,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import useGetProduct from '../components/hooks/products/useGetProduct';
 import IosButton from '../components/common/IosButton';
 import RatingStar from '../components/common/containers/RatingStarContainer';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addToCard } from '../context/features/checkoutSlice';
 
 const ProductScreen = ({route}: any): React.JSX.Element => {

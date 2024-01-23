@@ -10,7 +10,8 @@ export const checkoutSlice = createSlice({
         id: payload.id,
         title: payload.title,
         price: payload.price,
-        thumbnail: payload.thumbnail
+        thumbnail: payload.thumbnail,
+        stock: payload.stock
       }
       state.push(item)
     },
