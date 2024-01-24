@@ -1,7 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { BottomDescription, DescriptionView, ImageContainer, PriceBlock, TitleHeader, ViewContainer } from '../../screens/HomeScreenStyle';
+import { StyleSheet, Text, View, Image, Animated, TouchableOpacity } from 'react-native';
+import { BottomDescription, PriceBlock } from '../../screens/HomeScreenStyle';
 import { Dimensions } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 
 const width = Dimensions.get('screen').width;
 
@@ -46,25 +49,49 @@ const styles = StyleSheet.create({
 
 const ProductItem = (props: {item: CheckoutCart}): React.JSX.Element => {
   const {item} = props;
+
+  const onDeleteItem = () => {
+    console.log('Item', item);
+  }
+
+  const rightSwipe = (_progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[]; extrapolate: string; }) => any; }) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp'
+    })
+    return (
+      <TouchableOpacity onPress={onDeleteItem}>
+        <View style={{backgroundColor: 'rgba(255,99,125, 0.7)', height: 105, width: 60, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <Animated.Text style={{transform: [{scale: scale}]}}>
+            <FontAwesomeIcon name="trash" size={30} color="white" />
+          </Animated.Text>
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
   return (
-    <View style={styles.itemContainer}>
-      <View>
-        <Image source={{uri: item.thumbnail}} resizeMode="cover" style={styles.imageContainer}/>
-      </View>
-      <View>
-        <Text style={styles.titleHeader}>{item.title}</Text>
-        <View style={styles.descriptionContainer}>
-          <View>
-            <BottomDescription>Stock: {item.stock}</BottomDescription>
-          </View>
-          <View>
-            <Text>
-              Price:<PriceBlock>{item.price}$</PriceBlock>
-            </Text>
+    <Swipeable renderLeftActions={rightSwipe}>
+      <View style={styles.itemContainer}>
+        <View>
+          <Image source={{uri: item.thumbnail}} resizeMode="cover" style={styles.imageContainer}/>
+        </View>
+        <View>
+          <Text style={styles.titleHeader}>{item.title}</Text>
+          <View style={styles.descriptionContainer}>
+            <View>
+              <BottomDescription>Stock: {item.stock}</BottomDescription>
+            </View>
+            <View>
+              <Text>
+                Price:<PriceBlock>{item.price}$</PriceBlock>
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </Swipeable>
   )
 };
 

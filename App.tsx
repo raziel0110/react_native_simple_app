@@ -5,13 +5,16 @@ import {QueryClient, QueryClientProvider} from 'react-query';
 const queryClient = new QueryClient();
 import { Provider } from 'react-redux';
 import store from './store';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <TabContainer />
+          <GestureHandlerRootView style={{flex: 1}}>
+            <TabContainer />
+          </GestureHandlerRootView>
         </AuthProvider>
       </QueryClientProvider>
     </Provider>
