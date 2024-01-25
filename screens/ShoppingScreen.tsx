@@ -19,7 +19,7 @@ const ShoppingScreen = (props: {
     props.navigation.navigate('Login', {screen: props.route.name});
   };
   const cart = useSelector((state: any) => {
-    return state.cart
+    return state.cart.cart
   })
 
   if (!authState.authenticated) {

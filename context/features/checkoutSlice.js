@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const checkoutSlice = createSlice({
   name: 'checkout',
-  initialState: [],
+  initialState: {
+    cart: []
+  },
   reducers: {
     addToCard: (state, action) => {
       const {payload} = action;
@@ -13,14 +15,19 @@ export const checkoutSlice = createSlice({
         thumbnail: payload.thumbnail,
         stock: payload.stock
       }
-      state.push(item)
+
+      return {...state, cart: [...state.cart, item]};
     },
-    clearCart: (state, action) => {
-      state = []
-      return state;
+    clearCart: (state, _action) => {
+      return {...state, cart: []};
+    },
+    removeItemCart: (state, action) => {
+      const {payload} = action
+  
+      return {...state, cart: state.cart.filter(item => item.id !== payload.id)}
     }
   }
 })
 
-export const { addToCard, clearCart } = checkoutSlice.actions
+export const { addToCard, clearCart, removeItemCart } = checkoutSlice.actions
 export default checkoutSlice.reducer

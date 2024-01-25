@@ -17,7 +17,7 @@ const Tab = createBottomTabNavigator();
 
 const TabContainer = () => {
   const cart = useSelector((state) => {
-    return state.cart
+    return state.cart.cart
   });
 
   return (

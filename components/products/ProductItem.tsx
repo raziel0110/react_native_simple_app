@@ -4,6 +4,8 @@ import { BottomDescription, PriceBlock } from '../../screens/HomeScreenStyle';
 import { Dimensions } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { useDispatch } from 'react-redux';
+import { removeItemCart } from '../../context/features/checkoutSlice';
 
 
 const width = Dimensions.get('screen').width;
@@ -49,12 +51,13 @@ const styles = StyleSheet.create({
 
 const ProductItem = (props: {item: CheckoutCart}): React.JSX.Element => {
   const {item} = props;
+  const dispatch = useDispatch();
 
   const onDeleteItem = () => {
-    console.log('Item', item);
+    dispatch(removeItemCart(item));
   }
 
-  const rightSwipe = (_progress: any, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[]; extrapolate: string; }) => any; }) => {
+  const rightSwipe = (_progress: string | number, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[]; extrapolate: string; }) => any; }) => {
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],
