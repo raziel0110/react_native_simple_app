@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useAuth} from '../context/AuthContext';
 import RedirectLoginContainer from '../components/common/containers/RedirectLoginContainer';
-import {useGetUser} from '../components/hooks/products/useGetUser';
+import {DataUI, useGetUser} from '../components/hooks/products/useGetUser';
 import { Dimensions } from 'react-native';
 
 const height = Dimensions.get('screen').height
@@ -35,7 +35,7 @@ const TestScreen = (props: {
     );
   }
 
-  const data = useGetUser(authState.token);
+  const data: DataUI = useGetUser(authState.token);
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>
@@ -67,7 +67,7 @@ const TestScreen = (props: {
           <Text style={styles.header}>Details</Text>
           <Text style={styles.textLabel}>First name & Last name</Text>
           <TextInput
-            value={`${data?.lastName} ${data?.lastName}`}
+            value={`${data?.lastName} ${data?.firstName}`}
             style={styles.inputName}
           />
           <Text style={[styles.textLabel, styles.common]}>Email</Text>
