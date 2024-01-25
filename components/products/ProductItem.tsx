@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Animated, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Animated, TouchableOpacity, Button } from 'react-native';
 import { BottomDescription, PriceBlock } from '../../screens/HomeScreenStyle';
 import { Dimensions } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
+import { Swipeable, TextInput } from 'react-native-gesture-handler';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
-import { removeItemCart } from '../../context/features/checkoutSlice';
+import { removeItemCart, addQuantity, removeQuantity } from '../../context/features/checkoutSlice';
 
 
 const width = Dimensions.get('screen').width;
@@ -15,6 +15,7 @@ interface CheckoutCart {
   title: string;
   stock: number;
   price: number;
+  quantity: number;
 }
 
 const styles = StyleSheet.create({
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
   },
   titleHeader: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   itemContainer: {
@@ -42,10 +43,25 @@ const styles = StyleSheet.create({
     shadowColor: '#294B29',
   },
   descriptionContainer: {
-    marginTop: 16,
+    marginTop: 8,
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
+  },
+  quantityButton: {
+    marginLeft: 10,
+    marginRight: 10,
+    height: 20,
+    width: 30,
+    backgroundColor: '#294B29',
+    display: 'flex', 
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5
+  },
+  quantityText: {
+    color: 'white',
+    fontWeight: '700',
   }
 });
 
@@ -55,6 +71,14 @@ const ProductItem = (props: {item: CheckoutCart}): React.JSX.Element => {
 
   const onDeleteItem = () => {
     dispatch(removeItemCart(item));
+  }
+
+  const onRemoveQuantity = () => {
+    dispatch(removeQuantity(item));
+  }
+
+  const onAddQuantity = () => {
+    dispatch(addQuantity(item));
   }
 
   const rightSwipe = (_progress: string | number, dragX: { interpolate: (arg0: { inputRange: number[]; outputRange: number[]; extrapolate: string; }) => any; }) => {
@@ -90,6 +114,20 @@ const ProductItem = (props: {item: CheckoutCart}): React.JSX.Element => {
               <Text>
                 Price:<PriceBlock>{item.price}$</PriceBlock>
               </Text>
+            </View>
+          </View>
+          <View style={{marginTop: 5}}>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text>Quantity: </Text>
+              <View style={{display: 'flex', flexDirection: 'row'}}>
+                <TouchableOpacity onPress={onRemoveQuantity} style={styles.quantityButton}>
+                  <Text style={styles.quantityText}>-</Text>
+                </TouchableOpacity>
+                <Text>{item.quantity}</Text>
+                <TouchableOpacity onPress={onAddQuantity} style={styles.quantityButton}>
+                  <Text style={styles.quantityText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>

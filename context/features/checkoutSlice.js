@@ -8,15 +8,45 @@ export const checkoutSlice = createSlice({
   reducers: {
     addToCard: (state, action) => {
       const {payload} = action;
-      const item = {
-        id: payload.id,
-        title: payload.title,
-        price: payload.price,
-        thumbnail: payload.thumbnail,
-        stock: payload.stock
+      let index = state.cart.findIndex(item => item.id === payload.id)
+      if (index >= 0) {
+        const newState = state
+        state.cart[index] = {...state.cart[index], quantity: state.cart[index].quantity + 1}
+        return newState;
+      } else {
+        const newItem = {
+          id: payload.id,
+          title: payload.title,
+          price: payload.price,
+          thumbnail: payload.thumbnail,
+          stock: payload.stock,
+          quantity: 1,
+        }
+  
+        return {...state, cart: [...state.cart, newItem]};
+      }
+    },
+    addQuantity: (state, action) => {
+      const {payload} = action;
+      const index = state.cart.findIndex(item => item.id === payload.id)
+      if (index > -1) {
+        const newState = state;
+        newState.cart[index] = {...state.cart[index], quantity: state.cart[index].quantity + 1 }
+        return newState
       }
 
-      return {...state, cart: [...state.cart, item]};
+      return state
+    },
+    removeQuantity: (state, action) => {
+      const {payload} = action;
+      const index = state.cart.findIndex(item => item.id === payload.id)
+      if (index > -1 && state.cart[index].quantity > 1) {
+        const newState = state;
+        newState.cart[index] = {...state.cart[index], quantity: state.cart[index].quantity - 1 }
+        return newState
+      }
+
+      return state
     },
     clearCart: (state, _action) => {
       return {...state, cart: []};
@@ -29,5 +59,5 @@ export const checkoutSlice = createSlice({
   }
 })
 
-export const { addToCard, clearCart, removeItemCart } = checkoutSlice.actions
+export const { addToCard, clearCart, removeItemCart, addQuantity, removeQuantity } = checkoutSlice.actions
 export default checkoutSlice.reducer
