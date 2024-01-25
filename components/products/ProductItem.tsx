@@ -6,6 +6,7 @@ import { Swipeable, TextInput } from 'react-native-gesture-handler';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch } from 'react-redux';
 import { removeItemCart, addQuantity, removeQuantity } from '../../context/features/checkoutSlice';
+import { AppDispatch } from '../../store';
 
 
 const width = Dimensions.get('screen').width;
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
 
 const ProductItem = (props: {item: CheckoutCart}): React.JSX.Element => {
   const {item} = props;
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const onDeleteItem = () => {
     dispatch(removeItemCart(item));

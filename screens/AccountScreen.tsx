@@ -4,7 +4,6 @@ import {
   View,
   SafeAreaView,
   Platform,
-  ActivityIndicator,
   Image,
   StyleSheet,
   TextInput,

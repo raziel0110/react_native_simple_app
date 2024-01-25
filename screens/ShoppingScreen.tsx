@@ -8,13 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import {clearCart} from '../context/features/checkoutSlice'
 import ProductItem from '../components/products/ProductItem';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { AppDispatch } from '../store';
 
 const ShoppingScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
   route: {name: any};
 }): React.JSX.Element => {
   const {authState}: any = useAuth();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const action = (): void => {
     props.navigation.navigate('Login', {screen: props.route.name});
   };

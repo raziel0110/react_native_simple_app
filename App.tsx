@@ -4,7 +4,7 @@ import TabContainer from './components/navigation/TabContainer';
 import {QueryClient, QueryClientProvider} from 'react-query';
 const queryClient = new QueryClient();
 import { Provider } from 'react-redux';
-import store from './store';
+import {store} from './store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): React.JSX.Element {
