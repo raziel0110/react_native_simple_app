@@ -36,12 +36,7 @@ const TestScreen = (props: {
     );
   }
 
-  const {isFetching, data} = useGetUser(authState.token);
-  console.log(data?.data);
-
-  if (isFetching) {
-    return <ActivityIndicator color="blue" />;
-  }
+  const data = useGetUser(authState.token);
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>
@@ -54,17 +49,17 @@ const TestScreen = (props: {
             marginTop: 20,
           }}>
           <Image
-            source={{uri: data?.data?.image}}
+            source={{uri: data?.image}}
             resizeMode="cover"
             style={styles.image}
           />
         </View>
         <View style={{marginTop: 30, display: 'flex', alignItems: 'center'}}>
           <Text style={{fontSize: 22, color: '#294B29'}}>
-            {data?.data.company.title}
+            {data?.company?.title}
           </Text>
           <Text style={{fontSize: 12, color: '#294B29', fontWeight: '400'}}>
-            {data?.data.company.department}
+            {data?.company?.department}
           </Text>
         </View>
       </View>
@@ -73,11 +68,11 @@ const TestScreen = (props: {
           <Text style={styles.header}>Details</Text>
           <Text style={styles.textLabel}>First name & Last name</Text>
           <TextInput
-            value={`${data?.data.lastName} ${data?.data.lastName}`}
+            value={`${data?.lastName} ${data?.lastName}`}
             style={styles.inputName}
           />
           <Text style={[styles.textLabel, styles.common]}>Email</Text>
-          <TextInput style={styles.inputName} value={data?.data.email} />
+          <TextInput style={styles.inputName} value={data?.email} />
           <View
             style={{
               display: 'flex',
@@ -87,14 +82,14 @@ const TestScreen = (props: {
             <View>
               <Text style={[styles.textLabel, styles.common]}>Phone</Text>
               <TextInput
-                value={data?.data.phone}
+                value={data?.phone}
                 style={[styles.inputName, {width: 150}]}
               />
             </View>
             <View style={{marginTop: 10}}>
               <Text style={styles.textLabel}>Username</Text>
               <TextInput
-                value={data?.data.username}
+                value={data?.username}
                 style={[styles.inputName, {width: 150}]}
               />
             </View>

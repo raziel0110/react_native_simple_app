@@ -1,20 +1,24 @@
 import axios from "axios";
-import {useQuery} from "react-query";
+import { useEffect, useState } from "react";
 
 const PROFILE_URL = 'https://dummyjson.com/auth/me'
 
-const fetchUser = async (token: string) => {
-  if (token) {
-    return await axios.get(PROFILE_URL, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-  }
-  
-  return null;
-}
+export const useGetUser = (token: string) => {  
+  const [data, setData] = useState({});
 
-export const useGetUser = (token: string) => {
-    return useQuery(['user', token], () => fetchUser(token));
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(PROFILE_URL, {headers: {'Authorization': `Bearer ${token}`}})
+        if(data) {
+          setData(response.data)
+        }
+      } catch (err: any) {
+        setData({isError: true, error: err.response})
+      }
+    }
+    fetchData();
+  }, [token])
+
+  return data
 }
