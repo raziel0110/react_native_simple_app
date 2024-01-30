@@ -1,16 +1,28 @@
-import {useQuery} from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
 
-const PRODUCTS_URL = 'https://dummyjson.com/products';
+export const useGetProducts = (url: string) => {
+  const searching = url.includes("q=")
+  const getProducts = async ({pageParam = 0}) => {
+    const params = searching ? {} : {skip: pageParam, limit: 10}
+    const res = await axios.get(url, {
+      params: params
+    });
 
-const getProducts = async (url: string) => {
-  return await axios.get(url);
-};
+    return {...res, prevSkip: pageParam}
+  }
 
-export const useGetProducts = (searchKey: string) => {
-  const url =
-    searchKey.length > 0
-      ? `${PRODUCTS_URL}/search?q=${searchKey}`
-      : PRODUCTS_URL;
-  return useQuery(['products', url], () => getProducts(url));
+  const paginationg = (lastPage: any, _pages: any) => {
+    if (lastPage.prevSkip + 10 > 100) {
+      return false;
+    }
+
+    return lastPage.prevSkip + 10
+  }
+
+  return useInfiniteQuery({
+    queryKey: ['products', url],
+    queryFn: getProducts,
+    getNextPageParam: searching ? undefined : paginationg
+  });
 };

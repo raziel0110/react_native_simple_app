@@ -18,19 +18,35 @@ import {
 } from './HomeScreenStyle';
 import SearchFilter from '../components/products/SearchFilter';
 import {useGetProducts} from '../components/hooks/products/useGetProducts';
+import useDebounce from '../components/hooks/products/useDebounce';
+
+const BASE_URL = 'https://dummyjson.com/products';
 
 const HomeScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {itemId: any}) => void};
 }): React.JSX.Element => {
   const [searchKey, setSearchKey] = useState('');
-  const {isLoading, isFetching, data} = useGetProducts(searchKey);
+  const debounced: string = useDebounce(searchKey, 500);
+  const url = searchKey.length > 0 ? `${BASE_URL}/search?q=${debounced}`
+  : `${BASE_URL}`;
+
+  const {isLoading, data, hasNextPage, fetchNextPage} = useGetProducts(url);
   const keyExtractor = (_: any, index: number) => index.toString();
+  const dataArr = data?.pages?.map(page => page.data.products).flat();
 
   const showItem = (item: any) => {
     props.navigation.navigate('Item', {
       itemId: item.id,
     });
   };
+
+  const renderLoader = () => {
+    return (
+      <View>
+        <ActivityIndicator size="large"/>
+      </View>
+    )
+  }
 
   const renderItem = ({item}: any) => (
     <TouchableOpacity onPress={() => showItem(item)}>
@@ -55,16 +71,6 @@ const HomeScreen = (props: {
     </TouchableOpacity>
   );
 
-  if (isLoading || isFetching) {
-    return (
-      <>
-        <View style={styles.spinner}>
-          <ActivityIndicator />
-        </View>
-      </>
-    );
-  }
-
   return (
     <SafeAreaView>
       <View>
@@ -72,9 +78,16 @@ const HomeScreen = (props: {
           <SearchFilter onChangeSearchKey={setSearchKey} />
         </View>
         <FlatList
-          data={data?.data?.products}
+          data={dataArr}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
+          onEndReachedThreshold={0}
+          onEndReached={() => {
+            if (hasNextPage && !isLoading) {
+              fetchNextPage()
+            }
+          }}
+          ListFooterComponent={renderLoader}
         />
       </View>
     </SafeAreaView>
