@@ -1,10 +1,10 @@
 import React, {useState, useContext, createContext, useEffect} from 'react';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-const AuthContext = createContext({});
 const AUTH_URL = 'https://dummyjson.com/auth/login';
 
+const AuthContext = createContext({});
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -66,7 +66,11 @@ const AuthProvider = ({children}: any) => {
     });
   };
 
-  const value = {onLogin: login, onLogout: logout, authState};
+  const getUser = () => {
+    // TODO: fetch user and return data
+  }
+
+  const value = {onLogin: login, onLogout: logout, authState, getUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

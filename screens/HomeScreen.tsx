@@ -16,6 +16,7 @@ import {
   PriceBlock,
   TitleHeader,
 } from './HomeScreenStyle';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import SearchFilter from '../components/products/SearchFilter';
 import {useGetProducts} from '../components/hooks/products/useGetProducts';
 import useDebounce from '../components/hooks/products/useDebounce';
@@ -40,9 +41,22 @@ const HomeScreen = (props: {
     });
   };
 
+  const emptyList = () => {
+    if (dataArr?.length === 0) {
+      return (
+        <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height:200, width:300, marginTop: 'auto', marginBottom: 'auto', marginLeft: 'auto', marginRight: 'auto'}}>
+          <FontAwesomeIcon name="exclamation-circle" size={30} style={{color: 'red'}}/>
+          <Text style={{marginLeft: 10, fontSize: 16, fontWeight: 'bold'}}>No Items Found!!!</Text>
+        </View>
+      )
+    }
+
+    return null;
+  }
+
   const renderLoader = () => {
     return (
-      <View>
+      <View >
         <ActivityIndicator size="large"/>
       </View>
     )
@@ -87,7 +101,7 @@ const HomeScreen = (props: {
               fetchNextPage()
             }
           }}
-          ListFooterComponent={renderLoader}
+          ListEmptyComponent={emptyList}
         />
       </View>
     </SafeAreaView>

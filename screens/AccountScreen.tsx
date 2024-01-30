@@ -20,12 +20,14 @@ const TestScreen = (props: {
   route: {name: any};
 }): React.JSX.Element => {
   const {authState}: any = useAuth();
+  const data: DataUI = useGetUser(authState.token);
+
   const action = () => {
     props.navigation.navigate('Login', {screen: props.route.name});
   };
   const message = 'To access your profile please login to your account';
 
-  if (!(authState.authenticated || authState.token)) {
+  if (!(authState.authenticated && authState.token)) {
     return (
       <RedirectLoginContainer
         action={action}
@@ -34,8 +36,6 @@ const TestScreen = (props: {
       />
     );
   }
-
-  const data: DataUI = useGetUser(authState.token);
 
   return (
     <SafeAreaView style={{backgroundColor: 'white'}}>

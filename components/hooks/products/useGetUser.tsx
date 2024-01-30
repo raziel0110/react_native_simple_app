@@ -18,15 +18,15 @@ export interface DataUI {
 
 export const useGetUser = (token: string) => {  
   const [data, setData] = useState({});
-
+  console.log("TOKEN =>", token)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(PROFILE_URL, {headers: {'Authorization': `Bearer ${token}`}})
-        if(data) {
-          setData(response.data)
-        }
+        console.log(response)
+        setData(response.data)
       } catch (err: any) {
+        console.log("err =>",err)
         setData({isError: true, error: err.response})
       }
     }
