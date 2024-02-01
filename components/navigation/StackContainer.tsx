@@ -11,7 +11,8 @@ const StackContainer = () => {
   return (
     <Stack.Navigator
       initialRouteName="Products"
-      screenOptions={{headerShown: false}}>
+      screenOptions={{headerShown: true}}
+      >
       <Stack.Screen
         component={ProductScreen}
         name="Item"

@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const AUTH_URL = 'https://dummyjson.com/auth/login';
+const PROFILE_URL = 'https://dummyjson.com/auth/me';
 
 const AuthContext = createContext({});
 export const useAuth = () => {
@@ -42,7 +43,6 @@ const AuthProvider = ({children}: any) => {
     try {
       const response = await axios.post(AUTH_URL, {username, password});
       setUser(response.data.username);
-      console.log(response.data);
       setAuthState({
         token: response.data.token,
         authenticated: true,
@@ -67,10 +67,20 @@ const AuthProvider = ({children}: any) => {
   };
 
   const getUser = () => {
-    // TODO: fetch user and return data
+    // try {
+    //   const response = await axios.get(PROFILE_URL, {
+    //     headers: {'Authorization': `Bearer ${authState.token}`}
+    //   });
+    //   return response.data;
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    return axios.get(PROFILE_URL, {
+          headers: {'Authorization': `Bearer ${authState.token}`}
+    })
   }
 
-  const value = {onLogin: login, onLogout: logout, authState, getUser };
+  const value = {onLogin: login, onLogout: logout, authState, getUser: getUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -10,17 +10,40 @@ import {
 } from 'react-native';
 import {useAuth} from '../context/AuthContext';
 import RedirectLoginContainer from '../components/common/containers/RedirectLoginContainer';
-import {DataUI, useGetUser} from '../components/hooks/products/useGetUser';
 import { Dimensions } from 'react-native';
 
 const height = Dimensions.get('screen').height
+
+export interface DataUI {
+  data: any;
+  image?: string;
+  company?: {
+    title?: string;
+    department?: string;
+  };
+  lastName?: string;
+  firstName?: string;
+  email?: string;
+  phone?: string;
+  username?: string;
+}
 
 const TestScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
   route: {name: any};
 }): React.JSX.Element => {
-  const {authState}: any = useAuth();
-  const data: DataUI = useGetUser(authState.token);
+  const {authState, getUser}: any = useAuth();
+  const [data, setData] = useState<DataUI>();
+
+  useEffect(() => {
+    getUser().then((res: any) => {
+      if (res?.data) {
+        setData((prev) => {
+          return {...prev, ...res.data}
+        });
+      }
+    });
+  }, [authState.token])
 
   const action = () => {
     props.navigation.navigate('Login', {screen: props.route.name});

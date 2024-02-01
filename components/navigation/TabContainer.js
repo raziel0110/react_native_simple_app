@@ -49,7 +49,7 @@ const TabContainer = () => {
           tabBarShowLabel: false,
           headerShown: true,
         })}>
-        <Tab.Screen name="Home" component={StackContainer} />
+        <Tab.Screen name="Home" component={StackContainer} options={{headerShown: false}}/>
         <Tab.Screen
           name="Shop"
           component={ShoppingScreen}
