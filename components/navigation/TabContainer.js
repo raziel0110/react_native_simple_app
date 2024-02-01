@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,Text } from 'react-native';
+import {View} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -11,7 +11,7 @@ import StackContainer from './StackContainer';
 import LogoutButton from '../common/LogoutButton';
 import Badge from '../common/Badge';
 
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,22 +20,18 @@ const TabContainer = () => {
     return state.cart.cart
   });
 
+  const icon = (rn) => {
+    return rn === 'Home' ? 'home' : rn === 'Shop' ? 'shopping-cart' : 'user-circle';
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({route}) => ({
           tabBarIcon: ({_, color, size}) => {
-            let iconName;
-            let rn = route.name;
-
-            if (rn === 'Home') {
-              iconName = 'home';
-            } else if (rn === 'Shop') {
-              iconName = 'shopping-cart';
-            } else {
-              iconName = 'user-circle';
-            }
+            const rn = route.name
+            const iconName = icon(rn);
 
             return (
               <View style={{position:'absolute', display:'flex', flexDirection: 'row'}}>
@@ -59,7 +55,9 @@ const TabContainer = () => {
             },
           })}
         />
-        <Tab.Screen name="Profile" component={AccountScreen} options={() => ({
+        <Tab.Screen name="Profile"
+          component={AccountScreen} 
+          options={() => ({
           headerRight: () => {
             return <LogoutButton />
           }
