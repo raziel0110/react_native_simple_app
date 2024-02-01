@@ -16,11 +16,11 @@ import {useSelector} from 'react-redux';
 const Tab = createBottomTabNavigator();
 
 const TabContainer = () => {
-  const cart = useSelector((state) => {
+  const cart = useSelector((state: any) => {
     return state.cart.cart
   });
 
-  const tabNavigatorIcon = (routeName) => {
+  const tabNavigatorIcon = (routeName: any) => {
     return routeName === 'Home' ? 
       'home' : routeName === 'Shop' ? 
       'shopping-cart' : 'user-circle';
@@ -31,7 +31,7 @@ const TabContainer = () => {
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({route}) => ({
-          tabBarIcon: ({_, color, size}) => {
+          tabBarIcon: ({_, color, size}: any) => {
             const routeName = route.name
             const iconName = tabNavigatorIcon(routeName);
 
