@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,8 +20,10 @@ const TabContainer = () => {
     return state.cart.cart
   });
 
-  const icon = (rn) => {
-    return rn === 'Home' ? 'home' : rn === 'Shop' ? 'shopping-cart' : 'user-circle';
+  const tabNavigatorIcon = (routeName) => {
+    return routeName === 'Home' ? 
+      'home' : routeName === 'Shop' ? 
+      'shopping-cart' : 'user-circle';
   }
 
   return (
@@ -30,13 +32,13 @@ const TabContainer = () => {
         initialRouteName="Home"
         screenOptions={({route}) => ({
           tabBarIcon: ({_, color, size}) => {
-            const rn = route.name
-            const iconName = icon(rn);
+            const routeName = route.name
+            const iconName = tabNavigatorIcon(routeName);
 
             return (
-              <View style={{position:'absolute', display:'flex', flexDirection: 'row'}}>
+              <View style={styles.tabIconContainer}>
                 <FontAwesomeIcon name={iconName} size={size} color={color} />
-                {rn === 'Shop' && cart.length ? (
+                {routeName === 'Shop' && cart.length ? (
                   <Badge items={cart.length} />
                 ) : null}
               </View>
@@ -45,7 +47,11 @@ const TabContainer = () => {
           tabBarShowLabel: false,
           headerShown: true,
         })}>
-        <Tab.Screen name="Home" component={StackContainer} options={{headerShown: false}}/>
+        <Tab.Screen 
+          name="Home" 
+          component={StackContainer} 
+          options={{headerShown: false}}
+        />
         <Tab.Screen
           name="Shop"
           component={ShoppingScreen}
@@ -66,5 +72,13 @@ const TabContainer = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    position:'absolute',
+    display:'flex',
+    flexDirection: 'row'
+  }
+})
 
 export default TabContainer;
