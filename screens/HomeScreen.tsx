@@ -31,7 +31,7 @@ const HomeScreen = (props: {
   const url = searchKey.length > 0 ? `${BASE_URL}/search?q=${debounced}`
   : `${BASE_URL}`;
 
-  const {isLoading, data, hasNextPage, fetchNextPage} = useGetProducts(url);
+  const {isLoading, data, hasNextPage, fetchNextPage, isFetching} = useGetProducts(url);
   const keyExtractor = (_: any, index: number) => index.toString();
   const dataArr = data?.pages?.map(page => page.data.products).flat();
 
@@ -55,11 +55,14 @@ const HomeScreen = (props: {
   }
 
   const renderLoader = () => {
-    return (
-      <View >
-        <ActivityIndicator size="large"/>
-      </View>
-    )
+    if (isFetching) {
+      return (
+        <View style={{marginBottom: 20, marginTop: 20, padding: 10}}>
+          <ActivityIndicator size="large"/>
+        </View>
+      )
+    }
+    return null;
   }
 
   const renderItem = ({item}: any) => (
@@ -102,6 +105,7 @@ const HomeScreen = (props: {
             }
           }}
           ListEmptyComponent={emptyList}
+          ListFooterComponent={renderLoader}
         />
       </View>
     </SafeAreaView>
