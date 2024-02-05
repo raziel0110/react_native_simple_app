@@ -3,7 +3,7 @@ import { StyleSheet, View, Animated, Dimensions } from "react-native";
 
 const width = Dimensions.get('screen').width;
 
-const PageBullets = ({data, scrollX}: any) => {
+const SliderBullets = ({data, scrollX, currentIndex}: any) => {
   if (!Array.isArray(data)) {
     return null;
   }
@@ -18,8 +18,8 @@ const PageBullets = ({data, scrollX}: any) => {
           extrapolate: 'clamp'
         })
         return (
-          <Animated.View style={[styles.dot, {width: dotWidth}]} key={idx.toString()}/>
-        )
+          <Animated.View style={[styles.dot, {width: dotWidth}, idx === currentIndex && styles.active]} key={idx.toString()}/>
+        );
       })}
     </View>
   )
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 50,
-    backgroundColor: "#294B29",
+    backgroundColor: "#287028",
     marginRight: 5
   },
   container: {
@@ -39,7 +39,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 10,
     marginBottom: 10
+  },
+  active: {
+    backgroundColor: '#294B29'
   }
-})
+});
 
-export default PageBullets;
+export default SliderBullets;

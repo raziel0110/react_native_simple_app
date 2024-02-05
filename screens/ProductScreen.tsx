@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -22,9 +22,10 @@ import {useDispatch} from 'react-redux';
 import {addToCard} from '../context/features/checkoutSlice';
 import {useAuth} from '../context/AuthContext';
 import { AppDispatch } from '../store';
-import PageBullets from '../components/common/PageBullets';
+import PageBullets from '../components/common/SliderBullets';
 
 const ProductScreen = ({route}: any): React.JSX.Element => {
+  const [index, setIndex] = useState<number>(0);
   const {authState}: any = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const id = route.params.itemId;
@@ -59,6 +60,14 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
     ], {useNativeDriver: false})(event);
   }
 
+  const handleOnViewableItemsChanged = useRef(({viewableItems}: any) => {
+    setIndex(viewableItems[0].index);
+  }).current;
+  
+  const viewabilityConfig = useRef<Object>({
+    itemVisiblePercentThreshold: 50,
+  }).current;
+
   if (!data) {
     return <ActivityIndicator />
   }
@@ -76,8 +85,10 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
             renderItem={renderItem}
             snapToAlignment='center'
             onScroll={handleOnScroll}
+            onViewableItemsChanged={handleOnViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
           />
-          <PageBullets data={data.images} scrollX={scrollX}/>
+          <PageBullets data={data.images} scrollX={scrollX} currentIndex={index} />
         </View>
         <View>
           <Text style={styles.title}>{data.title}</Text>
