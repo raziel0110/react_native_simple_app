@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   TextInput,
+  ActionSheetIOS
 } from 'react-native';
 import {useAuth} from '../context/AuthContext';
 import RedirectLoginContainer from '../components/common/containers/RedirectLoginContainer';
@@ -28,12 +29,19 @@ export interface DataUI {
   username?: string;
 }
 
+export interface UserErrorUI {
+  expiredAt: string;
+  message: string;
+  name: string;
+}
+
 const TestScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
   route: {name: any};
 }): React.JSX.Element => {
-  const {authState, getUser}: any = useAuth();
+  const {authState, getUser, onLogout}: any = useAuth();
   const [data, setData] = useState<DataUI>();
+  const [_error, setError] = useState<UserErrorUI>();
 
   useEffect(() => {
     getUser().then((res: any) => {
@@ -42,6 +50,10 @@ const TestScreen = (props: {
           return {...prev, ...res.data}
         });
       }
+    }).catch((err: any) => {
+      setError(err.response);
+      onLogout();
+      props.navigation.navigate('Login', {screen: props.route.name});
     });
   }, [authState.token])
 
@@ -53,7 +65,7 @@ const TestScreen = (props: {
   if (!(authState.authenticated && authState.token)) {
     return (
       <RedirectLoginContainer
-        action={action}
+        action={() => action()}
         isIos={Platform.OS === 'ios'}
         message={message}
       />

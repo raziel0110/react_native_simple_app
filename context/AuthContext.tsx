@@ -69,7 +69,7 @@ const AuthProvider = ({children}: any) => {
   const getUser = () => {
     return axios.get(PROFILE_URL, {
           headers: {'Authorization': `Bearer ${authState.token}`}
-    })
+    });
   }
 
   const value = {onLogin: login, onLogout: logout, authState, getUser: getUser };
