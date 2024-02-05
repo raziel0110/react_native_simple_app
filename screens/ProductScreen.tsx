@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -9,6 +9,9 @@ import {
   Dimensions,
   Button,
   ActivityIndicator,
+  NativeSyntheticEvent,
+  NativeScrollEvent,
+  Animated,
 } from 'react-native';
 const {width} = Dimensions.get('window');
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -19,12 +22,14 @@ import {useDispatch} from 'react-redux';
 import {addToCard} from '../context/features/checkoutSlice';
 import {useAuth} from '../context/AuthContext';
 import { AppDispatch } from '../store';
+import PageBullets from '../components/common/PageBullets';
 
 const ProductScreen = ({route}: any): React.JSX.Element => {
   const {authState}: any = useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const id = route.params.itemId;
   const data: any = useGetProduct(`https://dummyjson.com/products/${id}`);
+  const scrollX = useRef(new Animated.Value(0)).current
 
   const addToCart = () => {
     if(authState.authenticated) {
@@ -42,6 +47,18 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
     );
   };
 
+  const handleOnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    Animated.event([
+      {
+        nativeEvent: {
+          contentOffset: {
+            x: scrollX
+          }
+        }
+      }
+    ], {useNativeDriver: false})(event);
+  }
+
   if (!data) {
     return <ActivityIndicator />
   }
@@ -57,7 +74,10 @@ const ProductScreen = ({route}: any): React.JSX.Element => {
             horizontal
             keyExtractor={item => item}
             renderItem={renderItem}
+            snapToAlignment='center'
+            onScroll={handleOnScroll}
           />
+          <PageBullets data={data.images} scrollX={scrollX}/>
         </View>
         <View>
           <Text style={styles.title}>{data.title}</Text>

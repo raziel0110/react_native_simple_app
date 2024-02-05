@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  ImageBackground,
+  Dimensions,
+  Image,
 } from 'react-native';
 import {
   ViewContainer,
@@ -20,6 +23,8 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import SearchFilter from '../components/products/SearchFilter';
 import {useGetProducts} from '../components/hooks/products/useGetProducts';
 import useDebounce from '../components/hooks/products/useDebounce';
+let ScreenHeight = Dimensions.get("screen").height;
+let screenWidth = Dimensions.get("screen").width;
 
 const BASE_URL = 'https://dummyjson.com/products';
 
@@ -90,24 +95,26 @@ const HomeScreen = (props: {
 
   return (
     <SafeAreaView>
-      <View>
-        <View style={styles.filterContainer}>
-          <SearchFilter onChangeSearchKey={setSearchKey} />
+      <ImageBackground source={require("../assets/background.jpg")} resizeMode='cover' blurRadius={35} >
+        <View>
+          <View style={styles.filterContainer}>
+            <SearchFilter onChangeSearchKey={setSearchKey} />
+          </View>
+          <FlatList
+            data={dataArr}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+            onEndReachedThreshold={0}
+            onEndReached={() => {
+              if (hasNextPage && !isLoading) {
+                fetchNextPage()
+              }
+            }}
+            ListEmptyComponent={emptyList}
+            ListFooterComponent={renderLoader}
+          />
         </View>
-        <FlatList
-          data={dataArr}
-          keyExtractor={keyExtractor}
-          renderItem={renderItem}
-          onEndReachedThreshold={0}
-          onEndReached={() => {
-            if (hasNextPage && !isLoading) {
-              fetchNextPage()
-            }
-          }}
-          ListEmptyComponent={emptyList}
-          ListFooterComponent={renderLoader}
-        />
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
