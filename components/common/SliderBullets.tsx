@@ -3,9 +3,9 @@ import { StyleSheet, View, Animated, Dimensions } from "react-native";
 
 const width = Dimensions.get('screen').width;
 
-const SliderBullets = ({data, scrollX, currentIndex}: any) => {
+const SliderBullets = ({data, scrollX, currentIndex}: any): React.JSX.Element => {
   if (!Array.isArray(data)) {
-    return null;
+    return <></>;
   }
 
   return (
@@ -17,9 +17,17 @@ const SliderBullets = ({data, scrollX, currentIndex}: any) => {
           outputRange: [10, 30, 10],
           extrapolate: 'clamp'
         })
+
+        const backgroundColor = scrollX.interpolate({
+          inputRange,
+          outputRange: ['#287028', '#294B29', '#287028'],
+          extrapolate: 'clamp'
+        });
+
         return (
-          <Animated.View style={[styles.dot, {width: dotWidth}, idx === currentIndex && styles.active]} key={idx.toString()}/>
+          <Animated.View style={[styles.dot, {width: dotWidth, backgroundColor}]}/>
         );
+
       })}
     </View>
   )
@@ -40,9 +48,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10
   },
-  active: {
-    backgroundColor: '#294B29'
-  }
 });
 
 export default SliderBullets;

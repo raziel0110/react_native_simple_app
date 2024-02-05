@@ -7,7 +7,6 @@ import {
   Image,
   FlatList,
   Dimensions,
-  Button,
   ActivityIndicator,
   NativeSyntheticEvent,
   NativeScrollEvent,
@@ -139,10 +138,11 @@ const styles = StyleSheet.create({
     height: width * 0.6,
   },
   infoContainer: {
-    padding: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
     marginTop: 5,
