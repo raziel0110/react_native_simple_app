@@ -67,14 +67,6 @@ const AuthProvider = ({children}: any) => {
   };
 
   const getUser = () => {
-    // try {
-    //   const response = await axios.get(PROFILE_URL, {
-    //     headers: {'Authorization': `Bearer ${authState.token}`}
-    //   });
-    //   return response.data;
-    // } catch (err) {
-    //   console.log(err);
-    // }
     return axios.get(PROFILE_URL, {
           headers: {'Authorization': `Bearer ${authState.token}`}
     })
