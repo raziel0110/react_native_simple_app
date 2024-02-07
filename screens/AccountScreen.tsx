@@ -7,7 +7,7 @@ import {
   Image,
   StyleSheet,
   TextInput,
-  ActionSheetIOS
+  ActionSheetIOS,
 } from 'react-native';
 import {useAuth} from '../context/AuthContext';
 import RedirectLoginContainer from '../components/common/containers/RedirectLoginContainer';
@@ -33,6 +33,7 @@ export interface UserErrorUI {
   expiredAt: string;
   message: string;
   name: string;
+  status: number;
 }
 
 const TestScreen = (props: {
@@ -41,7 +42,6 @@ const TestScreen = (props: {
 }): React.JSX.Element => {
   const {authState, getUser, onLogout}: any = useAuth();
   const [data, setData] = useState<DataUI>();
-  const [_error, setError] = useState<UserErrorUI>();
 
   useEffect(() => {
     getUser().then((res: any) => {
@@ -51,9 +51,23 @@ const TestScreen = (props: {
         });
       }
     }).catch((err: any) => {
-      setError(err.response);
-      onLogout();
-      props.navigation.navigate('Login', {screen: props.route.name});
+      console.log(err.response);
+      if( err.response.status === 401 && err.response.data.message === "Token Expired!") {
+        return ActionSheetIOS.showActionSheetWithOptions({
+          options: ['Cancel', 'Login'],
+          cancelButtonIndex: 0,
+          title: 'Error Authentication',
+        }, buttonIndex => {
+          if (buttonIndex === 0) {
+            return;
+          } else {
+            (function logginOut() {
+              onLogout();
+            })();
+            props.navigation.navigate('Login', {screen: props.route.name});
+          }
+        });
+      }
     });
   }, [authState.token])
 

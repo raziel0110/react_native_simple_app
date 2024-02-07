@@ -10,7 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient} contextSharing={true}>
         <AuthProvider>
           <GestureHandlerRootView style={{flex: 1}}>
             <TabContainer />
