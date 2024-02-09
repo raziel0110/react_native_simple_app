@@ -51,7 +51,6 @@ const TestScreen = (props: {
         });
       }
     }).catch((err: any) => {
-      console.log(err.response);
       if( err.response.status === 401 && err.response.data.message === "Token Expired!") {
         return ActionSheetIOS.showActionSheetWithOptions({
           options: ['Cancel', 'Login'],

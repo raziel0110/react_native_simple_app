@@ -40,6 +40,7 @@ const HomeScreen = (props: {
   const keyExtractor = (_: any, index: number) => index.toString();
   const dataArr = data?.pages?.map(page => page.data.products).flat();
 
+  console.log(data);
   const showItem = (item: any) => {
     props.navigation.navigate('Item', {
       itemId: item.id,
@@ -97,7 +98,7 @@ const HomeScreen = (props: {
     <SafeAreaView>
       <ImageBackground source={require("../assets/background.jpg")} resizeMode='cover' blurRadius={35} >
         <View>
-          <View style={styles.filterContainer}>
+          <View style={styles.filterContainer} id='search-filter'>
             <SearchFilter onChangeSearchKey={setSearchKey} />
           </View>
           <FlatList
