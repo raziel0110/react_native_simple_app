@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const useGetProducts = (url: string) => {
@@ -8,7 +8,7 @@ export const useGetProducts = (url: string) => {
     const res = await axios.get(url, {
       params: params
     });
-
+    console.log(res);
     return {...res, prevSkip: pageParam}
   }
 

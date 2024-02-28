@@ -1,7 +1,7 @@
 import React from 'react';
 import {AuthProvider} from './context/AuthContext';
 import TabContainer from './components/navigation/TabContainer';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 const queryClient = new QueryClient();
 import { Provider } from 'react-redux';
 import {store} from './store';
@@ -10,7 +10,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient} contextSharing={true}>
+      <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <GestureHandlerRootView style={{flex: 1}}>
             <TabContainer />

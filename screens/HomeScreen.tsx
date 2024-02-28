@@ -41,6 +41,7 @@ const HomeScreen = (props: {
   const dataArr = data?.pages?.map(page => page.data.products).flat();
 
   console.log(data);
+  
   const showItem = (item: any) => {
     props.navigation.navigate('Item', {
       itemId: item.id,
@@ -48,7 +49,7 @@ const HomeScreen = (props: {
   };
 
   const emptyList = () => {
-    if (dataArr?.length === 0) {
+    if (data?.pages.length === 0) {
       return (
         <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', height:200, width:300, marginTop: 'auto', marginBottom: 'auto', marginLeft: 'auto', marginRight: 'auto'}}>
           <FontAwesomeIcon name="exclamation-circle" size={30} style={{color: 'red'}}/>
