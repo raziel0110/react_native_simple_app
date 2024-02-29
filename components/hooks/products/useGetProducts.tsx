@@ -8,6 +8,7 @@ export const useGetProducts = (url: string) => {
     const res = await axios.get(url, {
       params: params
     });
+    
     console.log(res);
     return {...res, prevSkip: pageParam}
   }

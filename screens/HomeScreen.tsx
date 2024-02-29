@@ -40,7 +40,7 @@ const HomeScreen = (props: {
   const keyExtractor = (_: any, index: number) => index.toString();
   const dataArr = data?.pages?.map(page => page.data.products).flat();
 
-  console.log(data);
+  // console.log(isLoading, data);
   
   const showItem = (item: any) => {
     props.navigation.navigate('Item', {
@@ -65,7 +65,7 @@ const HomeScreen = (props: {
     if (isFetching) {
       return (
         <View style={{marginBottom: 20, marginTop: 20, padding: 10}}>
-          <ActivityIndicator size="large"/>
+          <ActivityIndicator size="large" accessibilityHint='loading' />
         </View>
       )
     }
