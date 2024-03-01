@@ -3,9 +3,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const AUTH_URL = 'https://dummyjson.com/auth/login';
-const PROFILE_URL = 'https://dummyjson.com/auth/me';
 
 const AuthContext = createContext({});
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -66,13 +66,7 @@ const AuthProvider = ({children}: any) => {
     });
   };
 
-  const getUser = () => {
-    return axios.get(PROFILE_URL, {
-          headers: {'Authorization': `Bearer ${authState.token}`}
-    });
-  }
-
-  const value = {onLogin: login, onLogout: logout, authState, getUser: getUser };
+  const value = {onLogin: login, onLogout: logout, authState };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

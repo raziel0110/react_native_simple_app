@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import {
   Text,
   View,
@@ -14,6 +15,7 @@ import RedirectLoginContainer from '../components/common/containers/RedirectLogi
 import { Dimensions } from 'react-native';
 
 const height = Dimensions.get('screen').height
+const PROFILE_URL = 'https://dummyjson.com/auth/me';
 
 export interface DataUI {
   data: any;
@@ -40,15 +42,17 @@ const TestScreen = (props: {
   navigation: {navigate: (arg0: string, arg1: {screen: any}) => void};
   route: {name: any};
 }): React.JSX.Element => {
-  const {authState, getUser, onLogout}: any = useAuth();
+  const {authState, onLogout}: any = useAuth();
   const [data, setData] = useState<DataUI>();
 
   useEffect(() => {
-    getUser().then((res: any) => {
-      if (res?.data) {
-        setData((prev) => {
-          return {...prev, ...res.data}
-        });
+    axios.get(PROFILE_URL, {
+      headers: {
+        'Authorization': `Bearer ${authState.token}`
+      }
+    }).then((res: any) => {
+      if (res.data) {
+        setData(res.data);
       }
     }).catch((err: any) => {
       if( err.response.status === 401 && err.response.data.message === "Token Expired!") {
@@ -70,12 +74,12 @@ const TestScreen = (props: {
     });
   }, [authState.token])
 
-  const action = () => {
-    props.navigation.navigate('Login', {screen: props.route.name});
-  };
-  const message = 'To access your profile please login to your account';
-
   if (!(authState.authenticated && authState.token)) {
+    const action = () => {
+      props.navigation.navigate('Login', {screen: props.route.name});
+    };
+    const message = 'To access your profile please login to your account';
+
     return (
       <RedirectLoginContainer
         action={() => action()}
